@@ -12,6 +12,6 @@ app.get('/health', (req, res) => {
 
 console.log('crazy-test')
 
-console.log(T, () => {
+console.log( () => {
   console.log(`server started on port ${PORT}`)
 })
