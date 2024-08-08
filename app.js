@@ -10,10 +10,6 @@ app.get('/health', (req, res) => {
   res.send('ok')
 })
 
-console.log('crazy-test')
-console.log('crazytest')
-console.log('22222')
-
 console.log( () => {
   console.log(`server started on port ${PORT}`)
 })
