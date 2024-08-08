@@ -39,21 +39,32 @@ jobs:
         uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  discord:
-    needs: simple_deployment_pipeline
+
+  notify_discord:
     runs-on: ubuntu-20.04
+    needs: simple_deployment_pipeline
+    if: ${{ always() }}
     steps:
-    - name: Test Success
-      uses: rjstone/discord-webhook-notify@v1
-      if: success()
-      with:
+      - name: Notify Discord on Success
+        if: ${{ needs.simple_deployment_pipeline.result == 'success' }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
           severity: info
-          details: Test Succeeded!
+          username: PokeDexWorkflow
+          color: '#00ff00'
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          details: A new version deployed by ${{ github.actor }}.
+          text: The deployment was successful.
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-    - name: Test Failure
-      uses: rjstone/discord-webhook-notify@v1
-      if: failure()
-      with:
+
+      - name: Notify Discord on Failure
+        if: ${{ needs.simple_deployment_pipeline.result == 'failure' }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
           severity: error
-          details: Test Failed!
+          username: PokeDexWorkflow
+          color: '#ff0000'
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          details: ${{ github.actor }} broke the build, hope it's not friday.
+          text: The deployment has failed.
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
