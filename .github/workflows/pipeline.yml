@@ -43,11 +43,10 @@ jobs:
   notify_discord:
     runs-on: ubuntu-20.04
     needs: simple_deployment_pipeline
-    if: ${{ always() }}
     steps:
       - name: Notify Discord on Success
         if: ${{ needs.simple_deployment_pipeline.result == 'success' }}
-        uses: rjstone/discord-webhook-notify@v1
+        uses: BubbleProd/discord-webhook-notify@v2
         with:
           severity: info
           username: PokeDexWorkflow
@@ -59,7 +58,7 @@ jobs:
 
       - name: Notify Discord on Failure
         if: ${{ needs.simple_deployment_pipeline.result == 'failure' }}
-        uses: rjstone/discord-webhook-notify@v1
+        uses: BubbleProd/discord-webhook-notify@v2
         with:
           severity: error
           username: PokeDexWorkflow
