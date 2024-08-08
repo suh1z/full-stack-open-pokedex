@@ -36,7 +36,28 @@ jobs:
         with:
           fetch-depth: '0'
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.70.0
+        uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+  discord:
+    needs: simple_deployment_pipeline
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Test Info
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            severity: info
+            details: Test succeeded.
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Warn
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            severity: warn
+            details: Test warning.
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Error
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            severity: error
+            details: Test error.
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
