@@ -70,4 +70,4 @@ jobs:
           description: Build is broken, hope it's not friday.
           details: ${{ github.actor }} 
           text: The deployment has failed.
-
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
