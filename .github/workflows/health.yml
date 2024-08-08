@@ -11,11 +11,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: URL Health Check
-        uses: Jtalk/url-health-check-action@v4
+        uses: APina03/wait_for_response@master
         with:
           url: ${{ secrets.URL_HEALTH }}
-          follow-redirect: false # Optional, defaults to "false"
-          max-attempts: 3 # Optional, defaults to 1
-          retry-delay: 5s # Optional, only applicable to max-attempts > 1
-          retry-all: false # Optional, defaults to "false"
-          cookie: "" # Optional, default is empty
+          responseCode: 200
+          timeout: 2000
+          interval: 500
