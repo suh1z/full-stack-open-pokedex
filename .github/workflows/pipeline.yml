@@ -25,10 +25,16 @@ jobs:
       - name: test
         run: npm run test
   tag_release:
-  needs: [simple_deployment_pipeline]
-  runs-on: ubuntu-20.04
-  steps:
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.70.0
-      env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-20.04
+    permissions:
+    contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: '0'
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.70.0
+        env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
